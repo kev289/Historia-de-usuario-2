@@ -6,3 +6,10 @@ export interface IUser {
   password: string;
   role: string;
 }
+
+export interface UserSession {
+  id: string;
+  nombre: string;
+  email: string;
+  role: string;
+}

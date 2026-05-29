@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/database';
 import { User } from '@/models/User';
 import { IUser } from '@/interfaces/user.interface';
+import { sendWelcomeEmail } from '@/lib/mailer';
 
 export async function GET() {
   try {
@@ -51,6 +52,10 @@ export async function POST(request: Request) {
 
     await newUser.save();
 
+    // Enviar email de bienvenida (no bloquea la respuesta)
+    sendWelcomeEmail({ nombre, email, password }).catch((err) =>
+      console.error('Error al enviar email de bienvenida:', err)
+    );
 
     const { password: _, ...userCreated } = newUser.toObject();
 
